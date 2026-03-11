@@ -396,7 +396,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/invoices/69b1da445c2719def36fd427",
+              "raw": "http://localhost:3000/api/invoices/69b1e294508bb622117c2908",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -405,7 +405,7 @@
               "path": [
                 "api",
                 "invoices",
-                "69b1da445c2719def36fd427"
+                "69b1e294508bb622117c2908"
               ]
             }
           },
@@ -853,6 +853,309 @@
                 "api",
                 "payments",
                 "69b1dca77e8468b741f3aa6c"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "recoveryaction",
+      "item": [
+        {
+          "name": "actiosn with filter",
+          "item": [
+            {
+              "name": "no filter",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/recovery-actions",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "recovery-actions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "juridique",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/recovery-actions?type=juridique",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "recovery-actions"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "juridique"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "appel",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:3000/api/recovery-actions?type=appel",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "recovery-actions"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "appel"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "with id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:3000/api/recovery-actions?invoice=69b1e294508bb622117c290a",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "recovery-actions"
+                  ],
+                  "query": [
+                    {
+                      "key": "invoice",
+                      "value": "69b1e294508bb622117c290a"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "create a recovery action",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoice\": \"69b1da445c2719def36fd42b\",\r\n  \"type\": \"appel\",\r\n  \"actionDate\": \"2026-03-11\",\r\n  \"notes\": \"Client contacté, promet de payer sous 48h\",\r\n  \"assignedTo\": \"69b1da445c2719def36fd41f\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/recovery-actions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "recovery-actions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create legal action",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoice\": \"69b1e294508bb622117c2908\",\r\n  \"type\": \"juridique\",\r\n  \"actionDate\": \"2026-03-11\",\r\n  \"notes\": \"Dossier transmis au service juridique\",\r\n  \"assignedTo\": \"69b1da445c2719def36fd421\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/recovery-actions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "recovery-actions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update action",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"notes\": \"Mise à jour - client a contacté le service juridique\",\r\n  \"type\": \"visite\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/recovery-actions/69b1e19d729c4e42479d5e75",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "recovery-actions",
+                "69b1e19d729c4e42479d5e75"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete action",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"notes\": \"Mise à jour - client a contacté le service juridique\",\r\n  \"type\": \"visite\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/recovery-actions/69b1e19d729c4e42479d5e75",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "recovery-actions",
+                "69b1e19d729c4e42479d5e75"
               ]
             }
           },
