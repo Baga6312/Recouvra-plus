@@ -4,6 +4,8 @@ const connectDB = require('./config/db');
 const { errorHandler, notFound } = require('./middlewares/errorMiddleware');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger/swaggerConfig');
+const clientRoutes = require("./src/routes/clientRoutes");
+const invoiceRoutes = require("./src/routes/invoiceRoutes");
 
 dotenv.config();
 
@@ -26,6 +28,8 @@ app.use('/api/invoices',         require('./routes/invoiceRoutes'));
 app.use('/api/payments',         require('./routes/paymentRoutes'));
 app.use('/api/recovery-actions', require('./routes/recoveryActionRoutes'));
 app.use('/api/stats',            require('./routes/statsRoutes'));
+app.use("/api/clients", clientRoutes);
+app.use("/api/invoices", invoiceRoutes);
 
 // Route de santé
 app.get('/api/health', (req, res) => {

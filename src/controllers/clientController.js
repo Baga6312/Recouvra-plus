@@ -1,4 +1,5 @@
 const clientService = require("../services/clientService");
+const invoiceService = require("../services/invoiceService");
 
 const createClient = async (req, res, next) => {
   try {
@@ -60,10 +61,20 @@ const deleteClient = async (req, res, next) => {
   }
 };
 
+const getClientInvoices = async (req, res, next) => {
+  try {
+    const invoices = await invoiceService.getInvoicesByClientId(req.params.id);
+    res.status(200).json(invoices);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createClient,
   getClients,
   getClientById,
   updateClient,
   deleteClient,
+  getClientInvoices,
 };
