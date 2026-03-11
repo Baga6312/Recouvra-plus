@@ -164,8 +164,36 @@
         {
           "name": "update profile",
           "request": {
-            "method": "GET",
-            "header": []
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MTgwMSwiZXhwIjoxNzczODY2NjAxfQ.Y-AbKIOTD1wLpkjUqF5sQ09tbwncc6gOOiu4MhaAt6o",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Admin Updated\",\r\n  \"email\": \"admin@recouvra.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
           },
           "response": []
         }
@@ -337,7 +365,7 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
                 "type": "text"
               }
             ],
@@ -363,12 +391,12 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
                 "type": "text"
               }
             ],
             "url": {
-              "raw": "http://localhost:3000/api/invoices/69b1cd7d2e20a1ea3a0db436",
+              "raw": "http://localhost:3000/api/invoices/69b1da445c2719def36fd427",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -377,7 +405,7 @@
               "path": [
                 "api",
                 "invoices",
-                "69b1cd7d2e20a1ea3a0db436"
+                "69b1da445c2719def36fd427"
               ]
             }
           },
@@ -504,6 +532,327 @@
                 "clients",
                 "69b1cd7d2e20a1ea3a0db433",
                 "invoices"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "payment",
+      "item": [
+        {
+          "name": "getpay",
+          "item": [
+            {
+              "name": "get all payments",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/payments",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "payments"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "payment by virement",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"invoice\": \"69b1da445c2719def36fd427\",\r\n  \"amount\": 100,\r\n  \"method\": \"espèces\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/payments?method=virement",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "query": [
+                    {
+                      "key": "method",
+                      "value": "virement"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "payment by chéque",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/payments?method=chèque",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "query": [
+                    {
+                      "key": "method",
+                      "value": "chèque"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get invoice payment",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:3000/api/payments?invoice=69b1dca77e8468b741f3aa6c",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "api",
+                    "payments"
+                  ],
+                  "query": [
+                    {
+                      "key": "invoice",
+                      "value": "69b1dca77e8468b741f3aa6c"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "pay partial payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoice\": \"69b1da445c2719def36fd427\",\r\n  \"amount\": 500,\r\n  \"method\": \"virement\",\r\n  \"paymentDate\": \"2026-03-11\",\r\n  \"notes\": \"Premier versement test\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/payments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "payments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "pay rest of payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{\r\n  \"invoice\": \"69b1da445c2719def36fd427\",\r\n  \"amount\": 4500,\r\n  \"method\": \"chèque\",\r\n  \"notes\": \"Solde final\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/payments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "payments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "closed payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoice\": \"69b1da445c2719def36fd427\",\r\n  \"amount\": 100,\r\n  \"method\": \"espèces\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/payments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "payments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update payment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2Mzk1MiwiZXhwIjoxNzczODY4NzUyfQ.NUvhtEql3o11zDss10wvJasv90YadtNtDozT-nv-Ffw",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"notes\": \"Mise à jour du commentaire\",\r\n  \"method\": \"espèces\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/payments/69b1dca77e8468b741f3aa6c",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "payments",
+                "69b1dca77e8468b741f3aa6c"
               ]
             }
           },

@@ -22,15 +22,22 @@ const invoiceSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+   
     status: {
       type: String,
-      enum: ["impayée", "partiellement_payée", "payée", "contentieux", "annulée"],
-      default: "impayée",
+      enum: ['impayée', 'partiellement_payée', 'payée', 'en_retard', 'annulée'],
+      default: 'impayée',
     },
+
     remainingAmount: {
-      type: Number,
-      min: 0,
+        type: Number,
+        default: function () {
+      return this.amount;
+      },
     },
+    
+
+
     description: {
       type: String,
       trim: true,

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-// ─── Models ───────────────────────────────────────────────────────────────────
 
 const userSchema = new mongoose.Schema({
   name: String,
@@ -48,20 +47,17 @@ const invoiceSchema = new mongoose.Schema({
 
 const Invoice = mongoose.models.Invoice || mongoose.model('Invoice', invoiceSchema);
 
-// ─── Seed Data ────────────────────────────────────────────────────────────────
 
 const seed = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅ MongoDB connected');
+    console.log(' MongoDB connected');
 
-    // Clear existing data
     await User.deleteMany({});
     await Client.deleteMany({});
     await Invoice.deleteMany({});
-    console.log('🗑️  Cleared existing data');
+    console.log('️  Cleared existing data');
 
-    // ── Users ──
     const hashedPassword = await bcrypt.hash('password123', 10);
 
     const [admin, manager, agent1, agent2] = await User.insertMany([
@@ -70,9 +66,8 @@ const seed = async () => {
       { name: 'Agent Sophie',  email: 'sophie@recouvra.com',  password: hashedPassword, role: 'agent' },
       { name: 'Agent Karim',   email: 'karim@recouvra.com',   password: hashedPassword, role: 'agent' },
     ]);
-    console.log('👥 Users seeded');
+    console.log(' Users seeded');
 
-    // ── Clients ──
     const [c1, c2, c3, c4, c5] = await Client.insertMany([
       {
         name: 'Société Dupont SARL',
@@ -123,9 +118,8 @@ const seed = async () => {
         notes: 'Plusieurs relances sans réponse',
       },
     ]);
-    console.log('🏢 Clients seeded');
+    console.log(' Clients seeded');
 
-    // ── Invoices ──
     await Invoice.insertMany([
       {
         invoiceNumber: 'INV-2024-001',
@@ -198,21 +192,57 @@ const seed = async () => {
         createdBy: manager._id,
       },
     ]);
-    console.log('🧾 Invoices seeded');
-
-    console.log('\n🌱 Seed complete! Test accounts:');
-    console.log('   admin@recouvra.com   / password123  (admin)');
-    console.log('   manager@recouvra.com / password123  (manager)');
-    console.log('   sophie@recouvra.com  / password123  (agent)');
-    console.log('   karim@recouvra.com   / password123  (agent)');
 
     await mongoose.disconnect();
     process.exit(0);
   } catch (err) {
-    console.error('❌ Seed error:', err.message);
+    console.error(' Seed error:', err.message);
     await mongoose.disconnect();
     process.exit(1);
   }
 };
+
+
+const paymentsData = [
+  {
+    invoice: invoices[0]._id,
+    amount: 500,
+    paymentDate: new Date('2026-02-10'),
+    method: 'virement',
+    notes: 'Premier versement',
+    recordedBy: agent1._id,
+  },
+  {
+    invoice: invoices[1]._id,
+    amount: 3000,
+    paymentDate: new Date('2026-02-20'),
+    method: 'chèque',
+    notes: 'Paiement intégral',
+    recordedBy: agent2._id,
+  },
+  {
+    invoice: invoices[2]._id,
+    amount: 300,
+    paymentDate: new Date('2026-03-01'),
+    method: 'espèces',
+    recordedBy: agent1._id,
+  },
+  {
+    invoice: invoices[2]._id,
+    amount: 200,
+    paymentDate: new Date('2026-03-05'),
+    method: 'espèces',
+    notes: 'Deuxième versement',
+    recordedBy: agent1._id,
+  },
+];
+
+const { createPayment } = require('./services/paymentService');
+const payments = [];
+for (const p of paymentsData) {
+  const payment = await createPayment(p);
+  payments.push(payment);
+}
+console.log(` ${payments.length} paiements créés`);
 
 seed();
