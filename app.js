@@ -18,7 +18,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Documentation Swagger
+
+// home page 
+
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Welcome to Recouvra+ ',
+    docs: 'Start discovering at /api/docs'
+  });
+});
+
+
+
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
@@ -43,8 +54,8 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
-  console.log(`🚀 Recouvra+ API démarrée sur le port ${PORT}`);
-  console.log(`📚 Swagger : http://localhost:${PORT}/api/docs`);
+  console.log(`Recouvra+ API démarrée sur le port ${PORT}`);
+  console.log(`Swagger : http://localhost:${PORT}/api/docs`);
 });
 
 module.exports = { app, server };

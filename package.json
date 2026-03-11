@@ -4,8 +4,8 @@
   "description": "API REST de gestion du recouvrement",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "jest --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage --detectOpenHandles --forceExit"
   },
