@@ -3,7 +3,7 @@ const router = express.Router();
 const { register, login, getMe, updateMe, getUsers, updateUserRole } = require('../controllers/authController');
 const { protect } = require('../middlewares/authMiddleware');
 const { authorize } = require('../middlewares/roleMiddleware');
-
+const { registerSchema, loginSchema, validate } = require('../validators/authValidator');
 /**
  * @swagger
  * /auth/register:
@@ -28,7 +28,7 @@ const { authorize } = require('../middlewares/roleMiddleware');
  *                 type: string
  *                 enum: [agent, manager, admin]
  */
-router.post('/register', register);
+router.post('/register', validate(registerSchema), register);
 
 /**
  * @swagger
@@ -49,7 +49,7 @@ router.post('/register', register);
  *               password:
  *                 type: string
  */
-router.post('/login', login);
+router.post('/login', validate(loginSchema), login);
 
 // Obtenir son profil
 router.get('/me', protect, getMe);
