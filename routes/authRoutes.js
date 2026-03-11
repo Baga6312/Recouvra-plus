@@ -51,6 +51,26 @@ router.post('/register', validate(registerSchema), register);
  */
 router.post('/login', validate(loginSchema), login);
 
+router.post('/register', validate(registerSchema), register);
+router.post('/login', validate(loginSchema), login);
+
+router.get('/register', (req, res) => {
+  res.status(405).json({
+    success: false,
+    message: 'Method Not Allowed.'
+  });
+});
+
+router.get('/login', (req, res) => {
+  res.status(405).json({
+    success: false,
+    message: 'Method Not Allowed. '
+  });
+});
+
+
+
+
 // Obtenir son profil
 router.get('/me', protect, getMe);
 

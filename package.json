@@ -5,7 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
+    "dev": "npm run seed && nodemon app.js",
+    "seed": "node config/seed.js",
     "test": "jest --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage --detectOpenHandles --forceExit"
   },

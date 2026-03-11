@@ -1,0 +1,515 @@
+{
+  "info": {
+    "_postman_id": "1716d2b1-55a3-40d2-b73b-2fa2855d2f28",
+    "name": "Recouva+",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23301578"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"admin@recouvra.com\",\r\n  \"password\": \"password123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDQ5NywiZXhwIjoxNzczODY1Mjk3fQ.ZiBn6geRe6z8DvqitSO8Q5MY5ik2lkJYwT9Z_MnEqVo",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/auth/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update user role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MTgwMSwiZXhwIjoxNzczODY2NjAxfQ.Y-AbKIOTD1wLpkjUqF5sQ09tbwncc6gOOiu4MhaAt6o",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"role\": \"agent\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/users/69b1cd7d2e20a1ea3a0db42c/role",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "users",
+                "69b1cd7d2e20a1ea3a0db42c",
+                "role"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/auth/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Admin User\",\r\n  \"email\": \"admin2@recouvra.com\",\r\n  \"password\": \"password123\",\r\n  \"role\": \"admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update profile",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "clients",
+      "item": [
+        {
+          "name": "get clients",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/clients",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "clients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "client by id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/clients/69b1cd7d2e20a1ea3a0db431",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "clients",
+                "69b1cd7d2e20a1ea3a0db431"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create client",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Nouveau Client Test\",\r\n  \"email\": \"nouveau@client.com\",\r\n  \"phone\": \"+33 1 99 88 77 66\",\r\n  \"address\": \"10 Rue de Test, Paris\",\r\n  \"siret\": \"99887766554433\",\r\n  \"status\": \"actif\",\r\n  \"notes\": \"Client créé via test API\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/clients",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "clients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update client",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Nouveau Client Modifié\",\r\n  \"status\": \"inactif\",\r\n  \"notes\": \"Mis à jour via test API\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/clients/69b1cd7d2e20a1ea3a0db434",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "clients",
+                "69b1cd7d2e20a1ea3a0db434"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete client",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/clients/69b1cd7d2e20a1ea3a0db434",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "clients",
+                "69b1cd7d2e20a1ea3a0db434"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "invoices",
+      "item": [
+        {
+          "name": "get invoices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/invoices",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get invoice by id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MDc3MCwiZXhwIjoxNzczODY1NTcwfQ.Hob39lHIEkRrEg78GF8QPp5F67rDDEauonSNGtNsv5Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/invoices/69b1cd7d2e20a1ea3a0db436",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices",
+                "69b1cd7d2e20a1ea3a0db436"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create invoice",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MTgwMSwiZXhwIjoxNzczODY2NjAxfQ.Y-AbKIOTD1wLpkjUqF5sQ09tbwncc6gOOiu4MhaAt6o",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoiceNumber\": \"INV-2024-008\",\r\n  \"client\": \"69b1cd7d2e20a1ea3a0db433\",\r\n  \"amount\": 3500,\r\n  \"dueDate\": \"2024-08-01\",\r\n  \"status\": \"impayée\",\r\n  \"description\": \"Nouvelle facture test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/invoices",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update invoice",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MTgwMSwiZXhwIjoxNzczODY2NjAxfQ.Y-AbKIOTD1wLpkjUqF5sQ09tbwncc6gOOiu4MhaAt6o",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"status\": \"partiellement_payée\",\r\n  \"remainingAmount\": 1750,\r\n  \"description\": \"Facture mise à jour via test API\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/invoices/69b1d42334895c286c22d7a5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices",
+                "69b1d42334895c286c22d7a5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete invoice",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MTgwMSwiZXhwIjoxNzczODY2NjAxfQ.Y-AbKIOTD1wLpkjUqF5sQ09tbwncc6gOOiu4MhaAt6o",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/invoices/69b1cd7d2e20a1ea3a0db437",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices",
+                "69b1cd7d2e20a1ea3a0db437"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get invoice by client",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFjZDdkMmUyMGExZWEzYTBkYjQyYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2MTgwMSwiZXhwIjoxNzczODY2NjAxfQ.Y-AbKIOTD1wLpkjUqF5sQ09tbwncc6gOOiu4MhaAt6o",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/clients/69b1cd7d2e20a1ea3a0db433/invoices",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "clients",
+                "69b1cd7d2e20a1ea3a0db433",
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
