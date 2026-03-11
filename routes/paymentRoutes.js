@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { create, getAll, getOne, update } = require('../controllers/paymentController');
 const protect = require('../middlewares/authMiddleware');
+const methodNotAllowed = require('../middlewares/methodNotAllowed');
 
 /**
  * @swagger
@@ -46,7 +47,14 @@ const protect = require('../middlewares/authMiddleware');
  *       401:
  *         description: Non autorisé
  */
-router.get('/', protect, getAll);
+
+router
+  .route('/')
+  .get(protect, getAll)
+  .post(protect, create)
+  .put(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
 /**
  * @swagger
@@ -68,7 +76,13 @@ router.get('/', protect, getAll);
  *       404:
  *         description: Paiement introuvable
  */
-router.get('/:id', protect, getOne);
+router
+  .route('/:id')
+  .get(protect, getOne)
+  .put(protect, update)
+  .post(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
 /**
  * @swagger
@@ -109,7 +123,7 @@ router.get('/:id', protect, getOne);
  *       400:
  *         description: Données invalides
  */
-router.post('/', protect, create);
+
 
 /**
  * @swagger

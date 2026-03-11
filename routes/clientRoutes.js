@@ -4,16 +4,34 @@ const router = express.Router();
 const clientController = require("../controllers/clientController");
 const validate = require("../middlewares/validate");
 const auth = require("../middlewares/authMiddleware");
+const methodNotAllowed = require('../middlewares/methodNotAllowed');
+
 const {
   createClientSchema,
   updateClientSchema,
 } = require("../validators/clientValidator");
 
-router.get("/", auth, clientController.getClients);
-router.get("/:id/invoices", auth, clientController.getClientInvoices);
-router.get("/:id", auth, clientController.getClientById);
-router.post("/", auth, validate(createClientSchema), clientController.createClient);
-router.put("/:id", auth, validate(updateClientSchema), clientController.updateClient);
-router.delete("/:id", auth, clientController.deleteClient);
+
+
+router.route('/')
+  .get(auth, clientController.getClients)
+  .post(auth, validate(createClientSchema), clientController.createClient)
+  .put(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
+
+router.route('/:id')
+  .get(auth, clientController.getClientById)
+  .put(auth, validate(updateClientSchema), clientController.updateClient)
+  .delete(auth, clientController.deleteClient)
+  .post(methodNotAllowed)
+  .patch(methodNotAllowed);
+
+router.route('/:id/invoices')
+  .get(auth, clientController.getClientInvoices)
+  .post(methodNotAllowed)
+  .put(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
 module.exports = router;

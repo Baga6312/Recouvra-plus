@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { register, login, getMe, updateMe, getUsers, updateUserRole } = require('../controllers/authController');
-const  protect  = require('../middlewares/authMiddleware');
+const protect = require('../middlewares/authMiddleware');
 const { authorize } = require('../middlewares/roleMiddleware');
 const { registerSchema, loginSchema, validate } = require('../validators/authValidator');
+const methodNotAllowed = require('../middlewares/methodNotAllowed');
+
 /**
  * @swagger
  * /auth/register:
@@ -28,7 +30,12 @@ const { registerSchema, loginSchema, validate } = require('../validators/authVal
  *                 type: string
  *                 enum: [agent, manager, admin]
  */
-router.post('/register', validate(registerSchema), register);
+router.route('/register')
+  .post(validate(registerSchema), register)
+  .get(methodNotAllowed)
+  .put(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
 /**
  * @swagger
@@ -49,38 +56,32 @@ router.post('/register', validate(registerSchema), register);
  *               password:
  *                 type: string
  */
-router.post('/login', validate(loginSchema), login);
+router.route('/login')
+  .post(validate(loginSchema), login)
+  .get(methodNotAllowed)
+  .put(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
-router.post('/register', validate(registerSchema), register);
-router.post('/login', validate(loginSchema), login);
+router.route('/me')
+  .get(protect, getMe)
+  .put(protect, updateMe)
+  .post(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
-router.get('/register', (req, res) => {
-  res.status(405).json({
-    success: false,
-    message: 'Method Not Allowed.'
-  });
-});
+router.route('/users')
+  .get(protect, authorize('admin'), getUsers)
+  .post(methodNotAllowed)
+  .put(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
-router.get('/login', (req, res) => {
-  res.status(405).json({
-    success: false,
-    message: 'Method Not Allowed. '
-  });
-});
-
-
-
-
-// Obtenir son profil
-router.get('/me', protect, getMe);
-
-// Modifier son profil
-router.put('/me', protect, updateMe);
-
-// Lister tous les utilisateurs (admin seulement)
-router.get('/users', protect, authorize('admin'), getUsers);
-
-// Changer le rôle d'un utilisateur (admin seulement)
-router.put('/users/:id/role', protect, authorize('admin'), updateUserRole);
+router.route('/users/:id/role')
+  .put(protect, authorize('admin'), updateUserRole)
+  .get(methodNotAllowed)
+  .post(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const router = express.Router();
 const { create, getAll, getOne, update, remove } = require('../controllers/recoveryActionController');
 const protect = require('../middlewares/authMiddleware');
 const { authorize } = require('../middlewares/roleMiddleware');
+const methodNotAllowed = require('../middlewares/methodNotAllowed');
 
 /**
  * @swagger
@@ -49,7 +50,13 @@ const { authorize } = require('../middlewares/roleMiddleware');
  *       200:
  *         description: Liste des actions avec pagination
  */
-router.get('/', protect, getAll);
+router
+  .route('/')
+  .get(protect, getAll)
+  .post(protect, create)
+  .put(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
 /**
  * @swagger
@@ -71,7 +78,13 @@ router.get('/', protect, getAll);
  *       404:
  *         description: Action introuvable
  */
-router.get('/:id', protect, getOne);
+router
+  .route('/:id')
+  .get(protect, getOne)
+  .put(protect, update)
+  .delete(protect, authorize('admin', 'manager'), remove)
+  .post(methodNotAllowed)
+  .patch(methodNotAllowed);
 
 /**
  * @swagger
@@ -110,7 +123,6 @@ router.get('/:id', protect, getOne);
  *       400:
  *         description: Données invalides
  */
-router.post('/', protect, create);
 
 /**
  * @swagger
@@ -149,7 +161,6 @@ router.post('/', protect, create);
  *       404:
  *         description: Action introuvable
  */
-router.put('/:id', protect, update);
 
 /**
  * @swagger

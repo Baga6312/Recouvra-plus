@@ -3,6 +3,7 @@ const router = express.Router();
 const { stats } = require('../controllers/statsController');
 const protect = require('../middlewares/authMiddleware');
 const { authorize } = require('../middlewares/roleMiddleware');
+const methodNotAllowed = require('../middlewares/methodNotAllowed');
 
 /**
  * @swagger
@@ -56,6 +57,12 @@ const { authorize } = require('../middlewares/roleMiddleware');
  *       403:
  *         description: Accès refusé
  */
-router.get('/', protect, authorize('admin', 'manager'), stats);
+router
+  .route('/')
+  .get(protect, authorize('admin', 'manager'), stats)
+  .post(methodNotAllowed)
+  .put(methodNotAllowed)
+  .patch(methodNotAllowed)
+  .delete(methodNotAllowed);
 
 module.exports = router;
