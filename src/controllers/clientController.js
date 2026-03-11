@@ -1,46 +1,69 @@
-const mongoose = require("mongoose");
+const clientService = require("../services/clientService");
 
-const clientSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-      index: true,
-    },
-    phone: {
-      type: String,
-      trim: true,
-    },
-    address: {
-      type: String,
-      trim: true,
-    },
-    siret: {
-      type: String,
-      trim: true,
-      index: true,
-    },
-    status: {
-      type: String,
-      enum: ["actif", "inactif", "contentieux"],
-      default: "actif",
-    },
-    assignedAgent: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    notes: {
-      type: String,
-      trim: true,
-    },
-  },
-  { timestamps: true }
-);
+const createClient = async (req, res, next) => {
+  try {
+    const client = await clientService.createClient(req.body);
+    res.status(201).json(client);
+  } catch (error) {
+    next(error);
+  }
+};
 
-module.exports = mongoose.model("Client", clientSchema);
+const getClients = async (req, res, next) => {
+  try {
+    const result = await clientService.getClients(req.query);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getClientById = async (req, res, next) => {
+  try {
+    const client = await clientService.getClientById(req.params.id);
+
+    if (!client) {
+      return res.status(404).json({ message: "Client introuvable" });
+    }
+
+    res.status(200).json(client);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateClient = async (req, res, next) => {
+  try {
+    const client = await clientService.updateClient(req.params.id, req.body);
+
+    if (!client) {
+      return res.status(404).json({ message: "Client introuvable" });
+    }
+
+    res.status(200).json(client);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteClient = async (req, res, next) => {
+  try {
+    const client = await clientService.deleteClient(req.params.id);
+
+    if (!client) {
+      return res.status(404).json({ message: "Client introuvable" });
+    }
+
+    res.status(200).json({ message: "Client supprimé avec succès" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  createClient,
+  getClients,
+  getClientById,
+  updateClient,
+  deleteClient,
+};
