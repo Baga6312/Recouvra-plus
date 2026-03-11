@@ -33,5 +33,4 @@ const recoveryActionSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model('RecoveryAction', recoveryActionSchema);
+module.exports = mongoose.models.RecoveryAction || mongoose.model('RecoveryAction', recoveryActionSchema);
