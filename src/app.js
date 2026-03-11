@@ -4,8 +4,8 @@ const connectDB = require('./config/db');
 const { errorHandler, notFound } = require('./middlewares/errorMiddleware');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger/swaggerConfig');
-const clientRoutes = require("./src/routes/clientRoutes");
-const invoiceRoutes = require("./src/routes/invoiceRoutes");
+const clientRoutes = require("./routes/clientRoutes");
+const invoiceRoutes = require("./routes/invoiceRoutes");
 
 dotenv.config();
 

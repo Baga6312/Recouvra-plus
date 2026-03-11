@@ -3,7 +3,7 @@ const router = express.Router();
 
 const invoiceController = require("../controllers/invoiceController");
 const validate = require("../middlewares/validate");
-const auth = require("../middlewares/auth");
+const auth = require("../middlewares/authMiddleware");
 const {
   createInvoiceSchema,
   updateInvoiceSchema,
