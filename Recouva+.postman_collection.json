@@ -1162,6 +1162,49 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "stats",
+      "item": [
+        {
+          "name": "get all stats",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YjFkYTQ0NWMyNzE5ZGVmMzZmZDQxYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MzI2NTE2OCwiZXhwIjoxNzczODY5OTY4fQ.di9OxO7IlDpfouOjqGI7J4FYrMBUxee7Pp5dfzBoTlg",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"notes\": \"Mise à jour - client a contacté le service juridique\",\r\n  \"type\": \"visite\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/stats",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "stats"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ]
 }
