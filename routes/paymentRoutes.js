@@ -3,6 +3,7 @@ const router = express.Router();
 const { create, getAll, getOne, update } = require('../controllers/paymentController');
 const protect = require('../middlewares/authMiddleware');
 const methodNotAllowed = require('../middlewares/methodNotAllowed');
+const  { authorize }  = require('../middlewares/roleMiddleware');
 
 /**
  * @swagger
@@ -50,8 +51,8 @@ const methodNotAllowed = require('../middlewares/methodNotAllowed');
 
 router
   .route('/')
-  .get(protect, getAll)
-  .post(protect, create)
+  .get(protect, authorize('admin'), getAll)
+  .post(protect, authorize('agent', 'manager', 'admin'), create)
   .put(methodNotAllowed)
   .patch(methodNotAllowed)
   .delete(methodNotAllowed);
@@ -76,10 +77,11 @@ router
  *       404:
  *         description: Paiement introuvable
  */
+
 router
   .route('/:id')
-  .get(protect, getOne)
-  .put(protect, update)
+  .get(protect, authorize('agent', 'manager', 'admin'), getOne)
+  .put(protect, authorize('admin'), update)
   .post(methodNotAllowed)
   .patch(methodNotAllowed)
   .delete(methodNotAllowed);

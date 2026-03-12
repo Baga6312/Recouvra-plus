@@ -52,8 +52,8 @@ const methodNotAllowed = require('../middlewares/methodNotAllowed');
  */
 router
   .route('/')
-  .get(protect, getAll)
-  .post(protect, create)
+  .get(protect,  getAll)
+  .post(protect, authorize('admin', 'manager', 'agent'), create)
   .put(methodNotAllowed)
   .patch(methodNotAllowed)
   .delete(methodNotAllowed);
@@ -78,13 +78,15 @@ router
  *       404:
  *         description: Action introuvable
  */
+
 router
   .route('/:id')
-  .get(protect, getOne)
-  .put(protect, update)
-  .delete(protect, authorize('admin', 'manager'), remove)
+  .get(protect, authorize('admin', 'manager', 'agent'), getOne)
+  .put(protect, authorize('admin', 'manager', 'agent'), update)
+  .delete(protect, authorize('admin'), remove)
   .post(methodNotAllowed)
   .patch(methodNotAllowed);
+
 
 /**
  * @swagger
@@ -182,6 +184,4 @@ router
  *       404:
  *         description: Action introuvable
  */
-router.delete('/:id', protect, authorize('admin', 'manager'), remove);
-
 module.exports = router;
