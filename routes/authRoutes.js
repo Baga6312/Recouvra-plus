@@ -63,6 +63,41 @@ router.route('/login')
   .patch(methodNotAllowed)
   .delete(methodNotAllowed);
 
+/**
+ * @swagger
+ * /auth/me:
+ *   get:
+ *     summary: Récupérer le profil de l'utilisateur actuel
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Profil utilisateur
+ *       401:
+ *         description: Non autorisé
+ *   put:
+ *     summary: Mettre à jour le profil utilisateur
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Profil mis à jour
+ *       401:
+ *         description: Non autorisé
+ */
 router.route('/me')
   .get(protect, getMe)
   .put(protect, updateMe)
@@ -70,6 +105,22 @@ router.route('/me')
   .patch(methodNotAllowed)
   .delete(methodNotAllowed);
 
+/**
+ * @swagger
+ * /auth/users:
+ *   get:
+ *     summary: Lister tous les utilisateurs
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Liste des utilisateurs
+ *       401:
+ *         description: Non autorisé
+ *       403:
+ *         description: Accès refusé (admin uniquement)
+ */
 router.route('/users')
   .get(protect, authorize('admin'), getUsers)
   .post(methodNotAllowed)
@@ -77,6 +128,42 @@ router.route('/users')
   .patch(methodNotAllowed)
   .delete(methodNotAllowed);
 
+/**
+ * @swagger
+ * /auth/users/{id}/role:
+ *   put:
+ *     summary: Mettre à jour le rôle d'un utilisateur
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID utilisateur
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [role]
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: [agent, manager, admin]
+ *     responses:
+ *       200:
+ *         description: Rôle mis à jour
+ *       401:
+ *         description: Non autorisé
+ *       403:
+ *         description: Accès refusé (admin uniquement)
+ *       404:
+ *         description: Utilisateur non trouvé
+ */
 router.route('/users/:id/role')
   .put(protect, authorize('admin'), updateUserRole)
   .get(methodNotAllowed)
