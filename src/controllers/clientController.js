@@ -23,11 +23,9 @@ const getClientById = async (req, res, next) => {
   try {
     const client = await clientService.getClientById(req.params.id);
 
-   if (!client) {
-  const error = new Error("Client introuvable");
-  error.statusCode = 404;
-  throw error;
-}
+    if (!client) {
+      return res.status(404).json({ message: "Client introuvable" });
+    }
 
     res.status(200).json(client);
   } catch (error) {
@@ -40,10 +38,8 @@ const updateClient = async (req, res, next) => {
     const client = await clientService.updateClient(req.params.id, req.body);
 
     if (!client) {
-  const error = new Error("Client introuvable");
-  error.statusCode = 404;
-  throw error;
-}
+      return res.status(404).json({ message: "Client introuvable" });
+    }
 
     res.status(200).json(client);
   } catch (error) {
@@ -56,10 +52,8 @@ const deleteClient = async (req, res, next) => {
     const client = await clientService.deleteClient(req.params.id);
 
     if (!client) {
-  const error = new Error("Client introuvable");
-  error.statusCode = 404;
-  throw error;
-}
+      return res.status(404).json({ message: "Client introuvable" });
+    }
 
     res.status(200).json({ message: "Client supprimé avec succès" });
   } catch (error) {
@@ -83,4 +77,4 @@ module.exports = {
   updateClient,
   deleteClient,
   getClientInvoices,
-};
+};  

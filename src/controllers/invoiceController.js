@@ -2,12 +2,7 @@ const invoiceService = require("../services/invoiceService");
 
 const createInvoice = async (req, res, next) => {
   try {
-    const payload = {
-      ...req.body,
-      createdBy: req.user._id,
-    };
-
-    const invoice = await invoiceService.createInvoice(payload);
+    const invoice = await invoiceService.createInvoice(req.body);
     res.status(201).json(invoice);
   } catch (error) {
     next(error);
@@ -37,7 +32,7 @@ const getInvoiceById = async (req, res, next) => {
   }
 };
 
-const updateInvoice = async (req, res, next) => {
+const updateInvoice = async (   req, res, next) => {
   try {
     const invoice = await invoiceService.updateInvoice(req.params.id, req.body);
 

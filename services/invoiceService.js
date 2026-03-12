@@ -33,11 +33,18 @@ const buildSort = (sortBy) => {
 };
 
 const createInvoice = async (data) => {
-  if (data.remainingAmount === undefined || data.remainingAmount === null) {
-    data.remainingAmount = data.amount;
-  }
+  const payload = {
+    invoiceNumber: data.invoiceNumber,
+    client: data.client,
+    amount: data.amount,
+    dueDate: data.dueDate,
+    description: data.description,
+    createdBy: data.createdBy,
+    status: "impayée",
+    remainingAmount: data.amount,
+  };
 
-  return await Invoice.create(data);
+  return await Invoice.create(payload);
 };
 
 const getInvoices = async ({
@@ -87,17 +94,9 @@ const updateInvoice = async (id, data) => {
   }
 
   const updatedData = { ...data };
-
-  const nextAmount =
-    updatedData.amount !== undefined ? updatedData.amount : existingInvoice.amount;
-
-  if (updatedData.remainingAmount === undefined || updatedData.remainingAmount === null) {
-    updatedData.remainingAmount =
-      existingInvoice.remainingAmount !== undefined &&
-      existingInvoice.remainingAmount !== null
-        ? existingInvoice.remainingAmount
-        : nextAmount;
-  }
+  delete updatedData.status;
+  delete updatedData.remainingAmount;
+  delete updatedData.createdBy;
 
   return await Invoice.findByIdAndUpdate(id, updatedData, {
     new: true,
@@ -108,9 +107,17 @@ const updateInvoice = async (id, data) => {
 };
 
 const deleteInvoice = async (id) => {
+  const paymentsCount = await Payment.countDocuments({ invoice: id });
+  const actionsCount = await RecoveryAction.countDocuments({ invoice: id });
+
+  if (paymentsCount > 0 || actionsCount > 0) {
+    const error = new Error("Impossible de supprimer une facture ayant des paiements ou actions de recouvrement liés");
+    error.statusCode = 409;
+    throw error;
+  }
+
   return await Invoice.findByIdAndDelete(id);
 };
-
 const getInvoicesByClientId = async (clientId) => {
   return await Invoice.find({ client: clientId })
     .populate("client", "name email siret status")

@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Single home route
+//  Single home route
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Welcome to Recouvra+',
@@ -35,7 +35,7 @@ app.use('/api/recovery-actions', require('./routes/recoveryActionRoutes'));
 app.use('/api/stats',            require('./routes/statsRoutes'));
 
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Recouvra+ API is running 🚀' });
+  res.json({ status: 'OK', message: 'Recouvra+ API is running ' });
 });
 
 

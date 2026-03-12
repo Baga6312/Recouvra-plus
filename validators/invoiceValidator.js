@@ -5,12 +5,7 @@ const createInvoiceSchema = Joi.object({
   client: Joi.string().hex().length(24).required(),
   amount: Joi.number().positive().required(),
   dueDate: Joi.date().required(),
-  status: Joi.string()
-    .valid("impayée", "partiellement_payée", "payée", "contentieux", "annulée")
-    .optional(),
-  remainingAmount: Joi.number().min(0).optional(),
   description: Joi.string().allow("", null).optional(),
-  createdBy: Joi.string().hex().length(24).allow("", null).optional(),
 });
 
 const updateInvoiceSchema = Joi.object({
@@ -18,12 +13,7 @@ const updateInvoiceSchema = Joi.object({
   client: Joi.string().hex().length(24).optional(),
   amount: Joi.number().positive().optional(),
   dueDate: Joi.date().optional(),
-  status: Joi.string()
-    .valid("impayée", "partiellement_payée", "payée", "contentieux", "annulée")
-    .optional(),
-  remainingAmount: Joi.number().min(0).optional(),
   description: Joi.string().allow("", null).optional(),
-  createdBy: Joi.string().hex().length(24).allow("", null).optional(),
 });
 
 module.exports = {

@@ -43,6 +43,14 @@ const updateClient = async (id, data) => {
 };
 
 const deleteClient = async (id) => {
+  const invoicesCount = await Invoice.countDocuments({ client: id });
+
+  if (invoicesCount > 0) {
+    const error = new Error("Impossible de supprimer un client ayant des factures liées");
+    error.statusCode = 409;
+    throw error;
+  }
+
   return await Client.findByIdAndDelete(id);
 };
 
