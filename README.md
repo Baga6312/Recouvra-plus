@@ -6,7 +6,7 @@ A production-ready REST API for managing debt recovery operations — clients, u
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **User Management**: Registration, login, role-based access control (agent, manager, admin)
 - **Client Management**: Complete CRUD with agent assignment and status tracking
@@ -169,7 +169,7 @@ PUT    /api/payments/:id           → Update payment (recalculates invoice stat
 DELETE /api/payments/:id           → Delete payment
 ```
 
-### Statistics (`/stats`) ⭐ NEW
+### Statistics (`/stats`) 
 ```
 GET    /api/stats/overview         → Overview metrics (CA, recovery rate, count)
 GET    /api/stats/invoices-by-status → Breakdown by invoice status
@@ -362,23 +362,23 @@ recouvra-plus/
 ├── services/
 │   ├── clientService.js      → Client business logic
 │   ├── invoiceService.js     → Invoice business logic
-│   ├── paymentService.js     → Payment + auto-status updates ⭐
+│   ├── paymentService.js     → Payment + auto-status updates 
 │   ├── recoveryActionService.js
-│   └── statsService.js       → Statistics aggregations ⭐ NEW
+│   └── statsService.js       → Statistics aggregations 
 ├── controllers/
 │   ├── authController.js     → Auth handlers
 │   ├── clientController.js   → Client handlers
 │   ├── invoiceController.js  → Invoice handlers
 │   ├── paymentController.js  → Payment handlers
 │   ├── recoveryActionController.js
-│   └── statsController.js    → Stats handlers ⭐ NEW
+│   └── statsController.js    → Stats handlers 
 ├── routes/
 │   ├── authRoutes.js         → Auth endpoints + Swagger docs
 │   ├── clientRoutes.js       → Client endpoints + Swagger docs
 │   ├── invoiceRoutes.js      → Invoice endpoints + Swagger docs
 │   ├── paymentRoutes.js      → Payment endpoints + Swagger docs
 │   ├── recoveryActionRoutes.js
-│   └── statsRoutes.js        → Stats endpoints + Swagger docs ⭐ NEW
+│   └── statsRoutes.js        → Stats endpoints + Swagger docs 
 ├── middlewares/
 │   ├── authMiddleware.js     → JWT verification
 │   ├── roleMiddleware.js     → Role-based access control
