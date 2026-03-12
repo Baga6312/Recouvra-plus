@@ -203,46 +203,5 @@ const seed = async () => {
 };
 
 
-const paymentsData = [
-  {
-    invoice: invoices[0]._id,
-    amount: 500,
-    paymentDate: new Date('2026-02-10'),
-    method: 'virement',
-    notes: 'Premier versement',
-    recordedBy: agent1._id,
-  },
-  {
-    invoice: invoices[1]._id,
-    amount: 3000,
-    paymentDate: new Date('2026-02-20'),
-    method: 'chèque',
-    notes: 'Paiement intégral',
-    recordedBy: agent2._id,
-  },
-  {
-    invoice: invoices[2]._id,
-    amount: 300,
-    paymentDate: new Date('2026-03-01'),
-    method: 'espèces',
-    recordedBy: agent1._id,
-  },
-  {
-    invoice: invoices[2]._id,
-    amount: 200,
-    paymentDate: new Date('2026-03-05'),
-    method: 'espèces',
-    notes: 'Deuxième versement',
-    recordedBy: agent1._id,
-  },
-];
-
-const { createPayment } = require('./services/paymentService');
-const payments = [];
-for (const p of paymentsData) {
-  const payment = await createPayment(p);
-  payments.push(payment);
-}
-console.log(` ${payments.length} paiements créés`);
 
 seed();

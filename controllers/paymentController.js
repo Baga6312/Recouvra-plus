@@ -19,8 +19,7 @@ const getAll = asyncHandler(async (req, res) => {
 });
 
 const getOne = asyncHandler(async (req, res) => {
-  const payment = await getPaymentById(req.params.id);
-  if (!payment) return res.status(404).json({ message: 'Paiement introuvable' });
+  const payment = await getPaymentById(req.params.id, req.user);
   res.json(payment);
 });
 
@@ -29,7 +28,6 @@ const update = asyncHandler(async (req, res) => {
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   const payment = await updatePayment(req.params.id, value);
-  if (!payment) return res.status(404).json({ message: 'Paiement introuvable' });
   res.json(payment);
 });
 

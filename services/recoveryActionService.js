@@ -7,10 +7,23 @@ const STATUS_TRANSITIONS = {
 
 const createAction = async (data) => {
   const invoice = await Invoice.findById(data.invoice);
-  if (!invoice) throw new Error('Facture introuvable');
+  if (!invoice) {
+    const err = new Error('Facture introuvable');
+    err.statusCode = 404;
+    throw err;
+  }
 
-  if (invoice.status === 'payée') throw new Error('Cette facture est déjà payée');
-  if (invoice.status === 'annulée') throw new Error('Cette facture est annulée');
+  if (invoice.status === 'payée') {
+    const err = new Error('Cette facture est déjà payée');
+    err.statusCode = 400;
+    throw err;
+  }
+
+  if (invoice.status === 'annulée') {
+    const err = new Error('Cette facture est annulée');
+    err.statusCode = 400;
+    throw err;
+  }
 
   const action = await RecoveryAction.create(data);
 
@@ -26,12 +39,14 @@ const createAction = async (data) => {
   ]);
 };
 
-const getActions = async ({ invoice, type, assignedTo, page = 1, limit = 10 }) => {
+const getActions = async ({ invoice, type, assignedTo, page = 1, limit = 10 }, user) => {
   const filter = {};
   if (invoice)    filter.invoice    = invoice;
   if (type)       filter.type       = type;
   if (assignedTo) filter.assignedTo = assignedTo;
 
+  if (user.role === 'agent') filter.createdBy = user._id;
+  
   const skip = (Number(page) - 1) * Number(limit);
 
   const actions = await RecoveryAction.find(filter)
@@ -55,14 +70,46 @@ const getActions = async ({ invoice, type, assignedTo, page = 1, limit = 10 }) =
   };
 };
 
-const getActionById = async (id) => {
-  return await RecoveryAction.findById(id)
+const getActionById = async (id, user) => {
+  const action = await RecoveryAction.findById(id)
     .populate('invoice', 'invoiceNumber amount remainingAmount status')
     .populate('assignedTo', 'name email role')
     .populate('createdBy', 'name email role');
+
+  if (!action) {
+    const err = new Error('Action introuvable');
+    err.statusCode = 404;
+    throw err;
+  }
+
+  if (user.role === 'agent') {
+    if (!action.createdBy || action.createdBy._id.toString() !== user._id.toString()) {
+      const err = new Error('Accès refusé, cette action ne vous appartient pas');
+      err.statusCode = 403;
+      throw err;
+    }
+  }
+
+  return action;
 };
 
-const updateAction = async (id, data) => {
+const updateAction = async (id, data, user) => {
+  const existing = await RecoveryAction.findById(id);
+
+  if (!existing) {
+    const err = new Error('Action introuvable');
+    err.statusCode = 404;
+    throw err;
+  }
+
+  if (user.role === 'agent') {
+    if (!existing.createdBy || existing.createdBy.toString() !== user._id.toString()) {
+      const err = new Error('Accès refusé, cette action ne vous appartient pas');
+      err.statusCode = 403;
+      throw err;
+    }
+  }
+
   const action = await RecoveryAction.findByIdAndUpdate(id, data, {
     new: true,
     runValidators: true,
@@ -70,8 +117,6 @@ const updateAction = async (id, data) => {
     .populate('invoice', 'invoiceNumber amount remainingAmount status')
     .populate('assignedTo', 'name email role')
     .populate('createdBy', 'name email role');
-
-  if (!action) return null;
 
   if (data.type) {
     const newStatus = STATUS_TRANSITIONS[data.type];
@@ -84,7 +129,15 @@ const updateAction = async (id, data) => {
 };
 
 const deleteAction = async (id) => {
-  return await RecoveryAction.findByIdAndDelete(id);
+  const action = await RecoveryAction.findByIdAndDelete(id);
+
+  if (!action) {
+    const err = new Error('Action introuvable');
+    err.statusCode = 404;
+    throw err;
+  }
+
+  return action;
 };
 
 module.exports = { createAction, getActions, getActionById, updateAction, deleteAction };
