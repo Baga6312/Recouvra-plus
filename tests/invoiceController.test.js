@@ -128,5 +128,71 @@ describe('Invoice Controller - Unit Tests', () => {
       expect(res.status).toHaveBeenCalledWith(404);
       expect(res.json).toHaveBeenCalledWith({ message: 'Facture introuvable' });
     });
+
+    it('should handle update errors', async () => {
+      req.params.id = 'invoice123';
+      req.body = { status: 'invalid_status' };
+
+      invoiceService.updateInvoice.mockRejectedValue(new Error('Invalid status'));
+
+      await updateInvoice(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expect.any(Error));
+    });
+
+    it('should update invoice to partiellement_payée', async () => {
+      req.params.id = 'inv456';
+      req.body = { status: 'partiellement_payée', remainingAmount: 2500 };
+
+      const mockInvoice = {
+        _id: 'inv456',
+        amount: 5000,
+        remainingAmount: 2500,
+        status: 'partiellement_payée',
+      };
+
+      invoiceService.updateInvoice.mockResolvedValue(mockInvoice);
+
+      await updateInvoice(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith(mockInvoice);
+    });
+  });
+
+  describe('deleteInvoice', () => {
+    it('should delete invoice successfully', async () => {
+      req.params.id = 'invoice123';
+
+      invoiceService.deleteInvoice.mockResolvedValue({ _id: 'invoice123' });
+
+      const { deleteInvoice } = require('../controllers/invoiceController');
+      await deleteInvoice(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ message: 'Facture supprimée avec succès' });
+    });
+
+    it('should return 404 if invoice to delete not found', async () => {
+      req.params.id = 'nonexistent';
+
+      invoiceService.deleteInvoice.mockResolvedValue(null);
+
+      const { deleteInvoice } = require('../controllers/invoiceController');
+      await deleteInvoice(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(404);
+    });
+
+    it('should handle deletion errors', async () => {
+      req.params.id = 'invoice123';
+
+      invoiceService.deleteInvoice.mockRejectedValue(new Error('Cannot delete invoiced'));
+
+      const { deleteInvoice } = require('../controllers/invoiceController');
+      await deleteInvoice(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(expect.any(Error));
+    });
   });
 });
