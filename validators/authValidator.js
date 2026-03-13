@@ -39,4 +39,17 @@ const validate = (schema) => {
     next();
   };
 };
-module.exports = { registerSchema, loginSchema, validate };
+
+const updateMeSchema = Joi.object({
+  name: Joi.string().min(2).max(50).messages({
+    'string.min': 'Le nom doit contenir au moins 2 caractères',
+    'string.max': 'Le nom ne peut pas dépasser 50 caractères',
+  }),
+  email: Joi.string().email().messages({
+    'string.email': 'Email invalide',
+  }),
+});
+
+
+
+module.exports = { registerSchema, loginSchema, updateMeSchema, validate };

@@ -15,8 +15,10 @@ const register = async (req, res) => {
     }
 
     // Créer l'utilisateur
-    const user = await User.create({ name, email, password, role });
+const allowedRoles = ['agent', 'manager'];
+const assignedRole = allowedRoles.includes(role) ? role : 'agent';
 
+const user = await User.create({ name, email, password, role: assignedRole });
     // Générer le token
     const token = generateToken(user._id, user.role);
 
@@ -25,7 +27,13 @@ const register = async (req, res) => {
       token,
       user: user.toPublicJSON(),
     });
-  } catch (error) {
+ } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cet email est déjà utilisé',
+      });
+    }
     res.status(500).json({
       success: false,
       message: error.message,
@@ -107,15 +115,33 @@ const updateMe = async (req, res) => {
       user: user.toPublicJSON(),
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cet email est déjà utilisé par un autre compte',
+      });
+    }
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const total = await User.countDocuments();
+    const users = await User.find().skip(skip).limit(limit);
+
     res.status(200).json({
       success: true,
+      total,
+      page,
+      pages: Math.ceil(total / limit),
       count: users.length,
       users: users.map((u) => u.toPublicJSON()),
     });
@@ -146,7 +172,16 @@ const updateUserRole = async (req, res) => {
       user: user.toPublicJSON(),
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    if (error.name === 'CastError') {
+      return res.status(400).json({
+        success: false,
+        message: 'ID utilisateur invalide',
+      });
+    }
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 

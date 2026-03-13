@@ -3,7 +3,7 @@ const router = express.Router();
 const { register, login, getMe, updateMe, getUsers, updateUserRole } = require('../controllers/authController');
 const protect = require('../middlewares/authMiddleware');
 const { authorize } = require('../middlewares/roleMiddleware');
-const { registerSchema, loginSchema, validate } = require('../validators/authValidator');
+const { registerSchema, loginSchema, updateMeSchema, validate } = require('../validators/authValidator');
 const methodNotAllowed = require('../middlewares/methodNotAllowed');
 
 /**
@@ -100,7 +100,7 @@ router.route('/login')
  */
 router.route('/me')
   .get(protect, getMe)
-  .put(protect, updateMe)
+  .put(protect, validate(updateMeSchema), updateMe)
   .post(methodNotAllowed)
   .patch(methodNotAllowed)
   .delete(methodNotAllowed);
