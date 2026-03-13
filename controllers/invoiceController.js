@@ -2,12 +2,7 @@ const invoiceService = require("../services/invoiceService");
 
 const createInvoice = async (req, res, next) => {
   try {
-    const payload = {
-      ...req.body,
-      createdBy: req.user._id,
-    };
-
-    const invoice = await invoiceService.createInvoice(payload);
+    const invoice = await invoiceService.createInvoice(req.body, req.user);
     res.status(201).json(invoice);
   } catch (error) {
     next(error);
@@ -16,8 +11,8 @@ const createInvoice = async (req, res, next) => {
 
 const getInvoices = async (req, res, next) => {
   try {
-    const result = await invoiceService.getInvoices(req.query);
-    res.status(200).json(result);
+    const invoices = await invoiceService.getInvoices(req.query, req.user);
+    res.status(200).json(invoices);
   } catch (error) {
     next(error);
   }
@@ -25,12 +20,7 @@ const getInvoices = async (req, res, next) => {
 
 const getInvoiceById = async (req, res, next) => {
   try {
-    const invoice = await invoiceService.getInvoiceById(req.params.id);
-
-    if (!invoice) {
-      return res.status(404).json({ message: "Facture introuvable" });
-    }
-
+    const invoice = await invoiceService.getInvoiceById(req.params.id, req.user);
     res.status(200).json(invoice);
   } catch (error) {
     next(error);
@@ -39,12 +29,7 @@ const getInvoiceById = async (req, res, next) => {
 
 const updateInvoice = async (req, res, next) => {
   try {
-    const invoice = await invoiceService.updateInvoice(req.params.id, req.body);
-
-    if (!invoice) {
-      return res.status(404).json({ message: "Facture introuvable" });
-    }
-
+    const invoice = await invoiceService.updateInvoice(req.params.id, req.body, req.user);
     res.status(200).json(invoice);
   } catch (error) {
     next(error);
@@ -53,12 +38,7 @@ const updateInvoice = async (req, res, next) => {
 
 const deleteInvoice = async (req, res, next) => {
   try {
-    const invoice = await invoiceService.deleteInvoice(req.params.id);
-
-    if (!invoice) {
-      return res.status(404).json({ message: "Facture introuvable" });
-    }
-
+    await invoiceService.deleteInvoice(req.params.id, req.user);
     res.status(200).json({ message: "Facture supprimée avec succès" });
   } catch (error) {
     next(error);

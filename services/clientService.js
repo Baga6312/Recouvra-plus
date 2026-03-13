@@ -1,63 +1,102 @@
 const Client = require("../models/Client");
+const Invoice = require("../models/Invoice");
 
-const createClient = async (data) => {
-  return await Client.create(data);
-};
-
-const getClients = async ({ status, assignedAgent, page = 1, limit = 10 }) => {
+const getClients = async (query, user) => {
   const filter = {};
 
-  if (status) filter.status = status;
-  if (assignedAgent) filter.assignedAgent = assignedAgent;
+  if (user.role === "agent") {
+    filter.assignedAgent = user._id;
+  }
 
-  const skip = (Number(page) - 1) * Number(limit);
+  if (query.status) {
+    filter.status = query.status;
+  }
 
-  const clients = await Client.find(filter)
-    .populate("assignedAgent", "name email role")
-    .skip(skip)
-    .limit(Number(limit))
-    .sort({ createdAt: -1 });
+  return await Client.find(filter).populate("assignedAgent", "name email role");
+};
 
-  const total = await Client.countDocuments(filter);
+const getClientById = async (id, user) => {
+  const filter = { _id: id };
 
-  return {
-    data: clients,
-    pagination: {
-      total,
-      page: Number(page),
-      limit: Number(limit),
-      pages: Math.ceil(total / Number(limit)),
-    },
+  if (user.role === "agent") {
+    filter.assignedAgent = user._id;
+  }
+
+  const client = await Client.findOne(filter).populate("assignedAgent", "name email role");
+
+  if (!client) {
+    const error = new Error("Client introuvable");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  return client;
+};
+
+const createClient = async (data, user) => {
+  if (user.role !== "agent") {
+    const error = new Error("Seul un agent peut créer un client");
+    error.statusCode = 403;
+    throw error;
+  }
+  const payload = {
+    ...data,
+    assignedAgent: user._id,
   };
+  return await Client.create(payload);
 };
 
-const getClientById = async (id) => {
-  return await Client.findById(id).populate("assignedAgent", "name email role");
+const updateClient = async (id, data, user) => {
+  const filter = { _id: id };
+
+  if (user.role === "agent") {
+    filter.assignedAgent = user._id;
+  }
+
+  const client = await Client.findOne(filter);
+
+  if (!client) {
+    const error = new Error("Client introuvable");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  Object.assign(client, data);
+  await client.save();
+
+  return client;
 };
 
-const updateClient = async (id, data) => {
-  return await Client.findByIdAndUpdate(id, data, {
-    new: true,
-    runValidators: true,
-  });
-};
+const deleteClient = async (id, user) => {
+  const filter = { _id: id };
 
-const deleteClient = async (id) => {
-  const invoicesCount = await Invoice.countDocuments({ client: id });
+  if (user.role === "agent") {
+    filter.assignedAgent = user._id;
+  }
 
-  if (invoicesCount > 0) {
-    const error = new Error("Impossible de supprimer un client ayant des factures liées");
+  const client = await Client.findOne(filter);
+
+  if (!client) {
+    const error = new Error("Client introuvable");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const relatedInvoices = await Invoice.countDocuments({ client: id });
+
+  if (relatedInvoices > 0) {
+    const error = new Error("Impossible de supprimer un client avec des factures");
     error.statusCode = 409;
     throw error;
   }
 
-  return await Client.findByIdAndDelete(id);
+  await Client.findByIdAndDelete(id);
 };
 
 module.exports = {
-  createClient,
   getClients,
   getClientById,
+  createClient,
   updateClient,
   deleteClient,
 };
