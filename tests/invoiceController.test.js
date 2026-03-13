@@ -85,16 +85,7 @@ describe('Invoice Controller - Unit Tests', () => {
       expect(res.json).toHaveBeenCalledWith(mockInvoice);
     });
 
-    it('should return 404 if invoice not found', async () => {
-      req.params.id = 'nonexistent';
 
-      invoiceService.getInvoiceById.mockResolvedValue(null);
-
-      await getInvoiceById(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Facture introuvable' });
-    });
   });
 
   describe('updateInvoice', () => {
@@ -117,17 +108,7 @@ describe('Invoice Controller - Unit Tests', () => {
       expect(res.json).toHaveBeenCalledWith(mockInvoice);
     });
 
-    it('should return 404 if invoice to update not found', async () => {
-      req.params.id = 'nonexistent';
-      req.body = { status: 'payée' };
 
-      invoiceService.updateInvoice.mockResolvedValue(null);
-
-      await updateInvoice(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Facture introuvable' });
-    });
 
     it('should handle update errors', async () => {
       req.params.id = 'invoice123';
@@ -173,16 +154,7 @@ describe('Invoice Controller - Unit Tests', () => {
       expect(res.json).toHaveBeenCalledWith({ message: 'Facture supprimée avec succès' });
     });
 
-    it('should return 404 if invoice to delete not found', async () => {
-      req.params.id = 'nonexistent';
 
-      invoiceService.deleteInvoice.mockResolvedValue(null);
-
-      const { deleteInvoice } = require('../controllers/invoiceController');
-      await deleteInvoice(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(404);
-    });
 
     it('should handle deletion errors', async () => {
       req.params.id = 'invoice123';

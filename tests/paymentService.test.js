@@ -10,8 +10,10 @@ describe('Payment Service - Unit Tests', () => {
     jest.clearAllMocks();
   });
 
-  describe('createPayment', () => {
+  describe('createPayment', () => { 
+    //defining the first test case to check if the payment is created and the invoice status is updated to "payée" when the payment amount fully covers the remaining amount of the invoice.
     it('should create payment and update invoice status to pagée when fully paid', async () => {
+      //set up taa mock data 
       const paymentData = {
         invoice: 'invoice123',
         amount: 5000,
@@ -29,16 +31,16 @@ describe('Payment Service - Unit Tests', () => {
         _id: 'payment123',
         ...paymentData,
       };
-
+      // use the mock data when calling the functions in the service
       Invoice.findById.mockResolvedValue(mockInvoice);
       Payment.create.mockResolvedValue(mockPayment);
       Invoice.findByIdAndUpdate.mockResolvedValue({
         status: 'payée',
         remainingAmount: 0,
       });
-
+      //get the result from the funtion
       const result = await paymentService.createPayment(paymentData);
-
+      //expected results
       expect(result).toEqual(mockPayment);
       expect(Invoice.findByIdAndUpdate).toHaveBeenCalledWith('invoice123', {
         remainingAmount: 0,
@@ -223,9 +225,7 @@ describe('Payment Service - Unit Tests', () => {
     it('should return null if payment not found', async () => {
       Payment.findById.mockResolvedValue(null);
 
-      const result = await paymentService.updatePayment('nonexistent', { amount: 1000 });
-
-      expect(result).toBeNull();
+      await expect(paymentService.updatePayment('nonexistent', { amount: 1000 })).rejects.toThrow('Paiement introuvable');
     });
 
     it('should throw error if new payment amount exceeds remaining', async () => {
@@ -302,7 +302,12 @@ describe('Payment Service - Unit Tests', () => {
         amount: 5000,
         method: 'virement',
         invoice: { invoiceNumber: 'INV-001' },
-        recordedBy: { name: 'Admin' },
+        recordedBy: { _id: 'user123', name: 'Admin', role: 'admin' },
+      };
+
+      const mockUser = {
+        _id: 'user123',
+        role: 'admin',
       };
 
       Payment.findById.mockReturnValue({
@@ -311,7 +316,7 @@ describe('Payment Service - Unit Tests', () => {
         }),
       });
 
-      const result = await paymentService.getPaymentById('payment123');
+      const result = await paymentService.getPaymentById('payment123', mockUser);
 
       expect(result).toEqual(mockPayment);
     });
@@ -321,7 +326,12 @@ describe('Payment Service - Unit Tests', () => {
         _id: 'payment456',
         amount: 3000,
         invoice: { invoiceNumber: 'INV-002', amount: 5000 },
-        recordedBy: { name: 'Agent' },
+        recordedBy: { _id: 'user123', name: 'Agent', role: 'admin' },
+      };
+
+      const mockUser = {
+        _id: 'user123',
+        role: 'admin',
       };
 
       const populateMock1 = jest.fn().mockReturnValue({
@@ -332,22 +342,25 @@ describe('Payment Service - Unit Tests', () => {
         populate: populateMock1,
       });
 
-      await paymentService.getPaymentById('payment456');
+      await paymentService.getPaymentById('payment456', mockUser);
 
       expect(Payment.findById).toHaveBeenCalledWith('payment456');
       expect(populateMock1).toHaveBeenCalledWith('invoice', 'invoiceNumber amount remainingAmount status');
     });
 
     it('should return null if payment does not exist', async () => {
+      const mockUser = {
+        _id: 'user123',
+        role: 'admin',
+      };
+
       Payment.findById.mockReturnValue({
         populate: jest.fn().mockReturnValue({
           populate: jest.fn().mockResolvedValue(null),
         }),
       });
 
-      const result = await paymentService.getPaymentById('nonexistent');
-
-      expect(result).toBeNull();
+      await expect(paymentService.getPaymentById('nonexistent', mockUser)).rejects.toThrow('Paiement introuvable');
     });
   });
 });

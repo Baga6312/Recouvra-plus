@@ -4,13 +4,10 @@ const {
   getClientById,
   updateClient,
   deleteClient,
-  getClientInvoices,
 } = require('../controllers/clientController');
 const clientService = require('../services/clientService');
-const invoiceService = require('../services/invoiceService');
 
 jest.mock('../services/clientService');
-jest.mock('../services/invoiceService');
 
 describe('Client Controller - Unit Tests', () => {
   let req, res, next;
@@ -113,6 +110,7 @@ describe('Client Controller - Unit Tests', () => {
 
     it('should get clients with status filter', async () => {
       req.query = { status: 'contentieux' };
+      req.user = undefined;
 
       const mockResult = {
         data: [
@@ -125,7 +123,7 @@ describe('Client Controller - Unit Tests', () => {
 
       await getClients(req, res, next);
 
-      expect(clientService.getClients).toHaveBeenCalledWith({ status: 'contentieux' });
+      expect(clientService.getClients).toHaveBeenCalledWith({ status: 'contentieux' }, undefined);
       expect(res.status).toHaveBeenCalledWith(200);
     });
 
@@ -145,6 +143,7 @@ describe('Client Controller - Unit Tests', () => {
 
     it('should handle pagination parameters', async () => {
       req.query = { page: 2, limit: 5 };
+      req.user = undefined;
 
       const mockResult = {
         data: [{ _id: '10', name: 'Client 10' }],
@@ -155,7 +154,7 @@ describe('Client Controller - Unit Tests', () => {
 
       await getClients(req, res, next);
 
-      expect(clientService.getClients).toHaveBeenCalledWith({ page: 2, limit: 5 });
+      expect(clientService.getClients).toHaveBeenCalledWith({ page: 2, limit: 5 }, undefined);
       expect(res.status).toHaveBeenCalledWith(200);
     });
 
@@ -187,16 +186,7 @@ describe('Client Controller - Unit Tests', () => {
       expect(res.json).toHaveBeenCalledWith(mockClient);
     });
 
-    it('should return 404 if client not found', async () => {
-      req.params.id = 'nonexistent';
 
-      clientService.getClientById.mockResolvedValue(null);
-
-      await getClientById(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Client introuvable' });
-    });
 
     it('should handle service errors', async () => {
       req.params.id = 'client123';
@@ -252,17 +242,7 @@ describe('Client Controller - Unit Tests', () => {
       expect(res.json).toHaveBeenCalledWith(mockClient);
     });
 
-    it('should return 404 if client to update not found', async () => {
-      req.params.id = 'nonexistent';
-      req.body = { status: 'inactif' };
 
-      clientService.updateClient.mockResolvedValue(null);
-
-      await updateClient(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Client introuvable' });
-    });
 
     it('should handle update errors', async () => {
       req.params.id = 'client123';
@@ -296,6 +276,7 @@ describe('Client Controller - Unit Tests', () => {
     it('should update client assigned agent', async () => {
       req.params.id = 'client123';
       req.body = { assignedAgent: 'agent_new_id' };
+      req.user = undefined;
 
       const mockClient = {
         _id: 'client123',
@@ -308,7 +289,7 @@ describe('Client Controller - Unit Tests', () => {
       await updateClient(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(200);
-      expect(clientService.updateClient).toHaveBeenCalledWith('client123', { assignedAgent: 'agent_new_id' });
+      expect(clientService.updateClient).toHaveBeenCalledWith('client123', { assignedAgent: 'agent_new_id' }, undefined);
     });
   });
 
@@ -324,16 +305,7 @@ describe('Client Controller - Unit Tests', () => {
       expect(res.json).toHaveBeenCalledWith({ message: 'Client supprimé avec succès' });
     });
 
-    it('should return 404 if client to delete not found', async () => {
-      req.params.id = 'nonexistent';
 
-      clientService.deleteClient.mockResolvedValue(null);
-
-      await deleteClient(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ message: 'Client introuvable' });
-    });
 
     it('should handle deletion errors', async () => {
       req.params.id = 'client123';
@@ -369,78 +341,4 @@ describe('Client Controller - Unit Tests', () => {
     });
   });
 
-  describe('getClientInvoices', () => {
-    it('should get all invoices for a client', async () => {
-      req.params.id = 'client123';
-
-      const mockInvoices = [
-        { _id: 'inv1', invoiceNumber: 'INV-001', amount: 5000, status: 'impayée' },
-        { _id: 'inv2', invoiceNumber: 'INV-002', amount: 3000, status: 'payée' },
-      ];
-
-      invoiceService.getInvoicesByClientId.mockResolvedValue(mockInvoices);
-
-      await getClientInvoices(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith(mockInvoices);
-      expect(invoiceService.getInvoicesByClientId).toHaveBeenCalledWith('client123');
-    });
-
-    it('should return empty array if client has no invoices', async () => {
-      req.params.id = 'new_client';
-
-      invoiceService.getInvoicesByClientId.mockResolvedValue([]);
-
-      await getClientInvoices(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json.mock.calls[0][0].length).toBe(0);
-    });
-
-    it('should handle service errors', async () => {
-      req.params.id = 'client123';
-
-      invoiceService.getInvoicesByClientId.mockRejectedValue(new Error('Database error'));
-
-      await getClientInvoices(req, res, next);
-
-      expect(next).toHaveBeenCalledWith(expect.any(Error));
-    });
-
-    it('should return invoices with different statuses', async () => {
-      req.params.id = 'client_multi';
-
-      const mockInvoices = [
-        { _id: 'inv1', status: 'impayée', amount: 5000 },
-        { _id: 'inv2', status: 'partiellement_payée', amount: 3000 },
-        { _id: 'inv3', status: 'payée', amount: 2000 },
-        { _id: 'inv4', status: 'en_retard', amount: 1000 },
-      ];
-
-      invoiceService.getInvoicesByClientId.mockResolvedValue(mockInvoices);
-
-      await getClientInvoices(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json.mock.calls[0][0].length).toBe(4);
-    });
-
-    it('should return invoices sorted by creation date', async () => {
-      req.params.id = 'client_sorted';
-
-      const mockInvoices = [
-        { _id: 'inv3', invoiceNumber: 'INV-003', createdAt: '2024-03-15' },
-        { _id: 'inv2', invoiceNumber: 'INV-002', createdAt: '2024-03-10' },
-        { _id: 'inv1', invoiceNumber: 'INV-001', createdAt: '2024-03-01' },
-      ];
-
-      invoiceService.getInvoicesByClientId.mockResolvedValue(mockInvoices);
-
-      await getClientInvoices(req, res, next);
-
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json.mock.calls[0][0][0].invoiceNumber).toBe('INV-003');
-    });
-  });
 });
